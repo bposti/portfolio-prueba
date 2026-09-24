@@ -208,8 +208,7 @@ async function fetchJson(path) {
   } catch (err) {
     console.error('Error cargando proyectos.json:', err);
     document.getElementById('error-proyectos')?.removeAttribute('hidden');
-    document.getElementById('filtros')?.parentElement?.classList.add('is-hidden');
-    document.getElementById('contador')?.parentElement?.classList.add('is-hidden');
+    document.querySelector('.filters-row')?.setAttribute('hidden', '');
     return;
   }
 
