@@ -1,70 +1,137 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-acento="violeta">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
+  <!-- Metadatos de compartir: única excepción al "ningún dato en el HTML" (los scrapers no ejecutan JS).
+       Se rellenan una vez con los datos de perfil.json y el JS los vuelve a escribir al cargar. -->
+  <title>Alex · Desarrollador multiplataforma en formación</title>
+  <meta name="description" content="Construyo apps Android y APIs que la gente usa de verdad. Busco prácticas para 2027.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Alex · Desarrollador multiplataforma en formación">
+  <meta property="og:description" content="Construyo apps Android y APIs que la gente usa de verdad. Busco prácticas para 2027.">
+  <meta property="og:image" content="og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0A0A'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='34' font-weight='600' fill='%23FAFAFA'%3EA%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-  <div class="layout">
-    <header class="sidebar">
-      <div class="sidebar__top">
-        <h1 id="nombre"></h1>
-        <p id="titular"></p>
-      </div>
+  <a class="skip" href="#proyectos">Saltar a los proyectos</a>
 
-      <nav aria-label="Secciones" class="sidebar__nav">
-        <ul>
-          <li><a href="#sobre-mi">Sobre mí</a></li>
+  <header class="topbar">
+    <div class="container">
+      <a class="brand" href="#inicio" id="brand"><img class="brand__img is-off" id="brand-img" alt="" hidden><span id="brand-name"></span></a>
+      <nav aria-label="Secciones">
+        <ul class="topnav" id="topnav">
           <li><a href="#proyectos">Proyectos</a></li>
-          <li><a href="#certificaciones">Certificaciones</a></li>
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+          <li><a href="#contacto">Contacto</a></li>
         </ul>
       </nav>
-
-      <div class="sidebar__contacto">
-        <a id="correo" href="#" class="btn btn--primario">Correo</a>
-        <a id="github" href="#" target="_blank" rel="noopener" class="btn btn--secundario">GitHub</a>
-        <a id="linkedin" href="#" target="_blank" rel="noopener" class="btn btn--secundario">LinkedIn</a>
+      <div class="top-right">
+        <span class="pill is-off" id="pill-top" hidden><span class="dot"></span><span class="pill__text"></span></span>
+        <a class="btn btn--primary" id="btn-correo-top" href="#contacto">Correo</a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="content">
-      <section id="sobre-mi" aria-labelledby="sobre-mi-titulo">
-        <p class="eyebrow">SOBRE MÍ</p>
-        <h2 id="sobre-mi-titulo">Sobre mí</h2>
-        <p id="sobre-mi-texto"></p>
-      </section>
+  <main id="inicio">
+    <section class="hero" aria-label="Presentación">
+      <div class="container">
+        <img class="avatar" id="avatar" alt="" data-in="0" hidden>
+        <p class="pill" id="pill-hero" data-in="1" hidden><span class="dot"></span><span class="pill__text"></span></p>
+        <h1 id="claim" data-in="2"></h1>
+        <p class="intro" id="intro" data-in="3"></p>
+        <div class="actions" id="acciones" data-in="4"></div>
+      </div>
+    </section>
 
-      <section id="proyectos" aria-labelledby="proyectos-titulo">
-        <p class="eyebrow">PROYECTOS</p>
-        <h2 id="proyectos-titulo">Proyectos</h2>
-        <nav id="filtros" aria-label="Filtro por tecnología"></nav>
-        <p id="contador" aria-live="polite"></p>
-        <div id="lista-proyectos"></div>
-        <p id="sin-resultados" class="estado-vacio" hidden>No hay proyectos con esta tecnología</p>
-        <p id="error-proyectos" class="estado-vacio" hidden>No se han podido cargar los proyectos</p>
-      </section>
+    <section class="section" id="proyectos" aria-labelledby="h-proyectos">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Trabajo</p>
+          <h2 id="h-proyectos">Proyectos</h2>
+        </div>
+        <div class="filters-row">
+          <nav aria-label="Filtro por tecnología"><ul class="filters" id="filtros"></ul></nav>
+          <p class="count eyebrow" id="contador" aria-live="polite"></p>
+        </div>
+        <div class="featured-list" id="destacados"></div>
+        <h3 class="sub" id="mas-label" hidden>Más proyectos</h3>
+        <div class="grid" id="lista"></div>
+        <p class="empty" id="vacio" hidden>No hay proyectos con esta tecnología</p>
+        <p class="empty" id="error-proyectos" hidden>No se han podido cargar los proyectos</p>
+      </div>
+    </section>
 
-      <section id="certificaciones" aria-labelledby="certificaciones-titulo">
-        <p class="eyebrow">CERTIFICACIONES</p>
-        <h2 id="certificaciones-titulo">Certificaciones</h2>
-        <div id="certificaciones-contenedor" class="grid-certificaciones"></div>
-        <p id="certificaciones-error" class="estado-vacio" hidden>No se han podido cargar las certificaciones</p>
-        <p id="certificaciones-vacio" class="estado-vacio" hidden>No hay certificaciones</p>
-      </section>
-    </main>
-  </div>
+    <section class="section" id="sobre-mi" aria-labelledby="h-sobre">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Quién soy</p>
+          <h2 id="h-sobre">Sobre mí</h2>
+        </div>
+        <div class="about">
+          <div class="about__text" id="sobre-texto"></div>
+          <aside class="aside" aria-label="Ahora y stack">
+            <div id="ahora-wrap"><h4>Ahora</h4><ul class="now" id="ahora"></ul></div>
+            <div id="stack-wrap"><h4>Stack</h4><div id="stack"></div></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="actividad" aria-labelledby="h-actividad">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">GitHub</p>
+          <h2 id="h-actividad">Últimos 3 meses</h2>
+        </div>
+        <div class="heat-wrap" id="heat-wrap">
+          <div class="heat" id="heat" role="group" aria-label="Contribuciones diarias a GitHub en las últimas 13 semanas"></div>
+          <div class="heat-foot">
+            <span id="heat-total" aria-live="polite"></span>
+            <span class="legend" aria-hidden="true">Menos <i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i> Más</span>
+          </div>
+        </div>
+        <p class="empty" id="actividad-vacio" hidden></p>
+      </div>
+    </section>
+
+    <section class="section" id="certificaciones" aria-labelledby="h-certs">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Formación</p>
+          <h2 id="h-certs">Certificaciones</h2>
+        </div>
+        <ul class="certs" id="certs"></ul>
+        <p class="empty" id="certificaciones-vacio" hidden>No hay certificaciones</p>
+        <p class="empty" id="certificaciones-error" hidden>No se han podido cargar las certificaciones</p>
+      </div>
+    </section>
+
+    <section class="section contact" id="contacto" aria-labelledby="h-contacto">
+      <div class="container">
+        <p class="eyebrow" style="margin-bottom:12px">Contacto</p>
+        <h2 class="big" id="h-contacto">¿Hablamos?</h2>
+        <p class="lead" id="contacto-texto">Si buscas a alguien en prácticas que aprenda rápido y pregunte cuando no sabe, escríbeme. Respondo en el día.</p>
+        <div class="email-row">
+          <a class="email" id="email" href="#"></a>
+          <button class="btn btn--sm" id="copiar" type="button">Copiar</button>
+          <span class="status" id="copiado" aria-live="polite"></span>
+        </div>
+        <div class="actions" id="acciones-2"></div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>
-      <a id="footer-github" href="#" target="_blank" rel="noopener">GitHub</a> ·
-      <a id="footer-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a> ·
-      <a id="footer-correo" href="#">Correo</a>
-    </p>
+    <div class="container">
+      <p>Hecho a partir de una especificación → <a id="spec-link" href="spec.md">spec.md</a></p>
+      <p id="actualizado"></p>
+    </div>
   </footer>
 
   <script src="js/app.js"></script>
