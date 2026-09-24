@@ -1,2 +1,15 @@
-U3RhcnRlciBraXQgwrcgUG9ydGZvbGlvIGRlIHJlZmVyZW5jaWEKCkNvbnRlbmlkbyBkZSBhcnJhbnF1ZSBkZWwgcmVwby4gVG9kbyBsbyBxdWUgaGF5IGFxdcOtIHNlIHN1YmUgYSBsYSByYcOpeiBkZSBwb3J0Zm9saW8tcHJ1ZWJhLCBzYWx2byBsYSBjYXJwZXRhIHNvYnJlLywgcXVlIHNlIHN1YmUgc29sbyBjdWFuZG8gbGxlZ3VlIGVsIGNhbWJpbyBkZSByZXF1aXNpdG8uCgpwcm95ZWN0b3MuanNvbjogY2luY28gcHJveWVjdG9zIGNvbiB0ZWNub2xvZ8OtYXMgdmFyaWFkYXMgcGFyYSBlbCBmaWx0cm8uIFRyZXMgdGllbmVuIGltYWdlbiBlbiBpbWcvOyBkb3MgbGxldmFuIGltYWdlOiBudWxsIGEgcHJvcMOzc2l0by4KCm1pLmpzb246IG5vbWJyZSwgdGl0dWxhciwgIlNvYnJlIG3DrSIgeSBlbmxhY2VzLiBFbiBnaXRodWIgdmEgZWwgdXN1YXJpbyBjdXlvIG1hcGEgZGUgY2Fsb3Igc2UgbW9zdHJhcmHDrWE7IGNhbWJpYSBvY3RvY2F0IHBvciB1bm8gcmVhbCBzaSBzZSBwcnVlYmEgZXNhIGFtcGxpYWNpw7NuLgoKaW1nLzogbGFzIHRyZXMgaW1hZ2VuZXMgcXVlIHJlZmVyZW5jaWEgcHJveWVjdG9zLmpzb24uCgoubm9qZWt5bGw6IEdpdEh1YiBQYWdlcyBzaXJ2ZSBsb3MgZmljaGVyb3MgdGFsIGN1YWwsIHNpbiBwcm9jZXNhcmxvcy4KCnNvYnJlL2NlcnRpZmljYWNpb25lcy5qc29uOiBkYXRvcyBkZWwgc29icmUsIGNvbiB1biBjYXNvIGRlIGNhZGEgZXN0YWRvIChjYWR1Y2FkYSwgY2FkdWNhIHByb250bywgdmlnZW50ZSwgc2luIGNhZHVjaWRhZCkuIExhcyBmZWNoYXMgZXN0w6FuIGNhbGN1bGFkYXMgcGFyYSBzZXB0aWVtYnJl4oCTb2N0dWJyZSBkZSAyMDI2OyBzaSBsYSBwcnVlYmEgZXMgbcOhcyB0YXJkZSwgYWNlcmNhIGxhIGNhZHVjaWRhZCBkZSAiR29vZ2xlIENsb3VkIERpZ2l0YWwgTGVhZGVyIiBhIG1lbm9zIGRlIDYwIGTDtWFzLgoK
-TGggc3BlYywgZWwgc29icmUgeSBsYXMgaW5zdHJ1Y2Npb25lcyBkZSBsb3MgYWdlbnRlcyBlc3TDoW4gZW4gcHJ1ZWJhLXRlcm9zLXBvcnRmb2xpby5tZCwgZW4gZWwgcHJveWVjdG8gRm9ybWFjacOzbiBJQS4=
+Starter kit · Portfolio de referencia
+
+Contenido de arranque del repo. Todo lo que hay aquí se sube a la raíz de portfolio-prueba, salvo la carpeta sobre/, que se sube solo cuando llegue el cambio de requisito.
+
+proyectos.json: cinco proyectos con tecnologías variadas para el filtro. Tres tienen imagen en img/; dos llevan imagen: null a propósito.
+
+perfil.json: nombre, titular, "Sobre mí" y enlaces. En github va el usuario cuyo mapa de calor se mostraría; cambia octocat por uno real si se prueba esa ampliación.
+
+img/: las tres imágenes que referencia proyectos.json.
+
+.nojekyll: GitHub Pages sirve los ficheros tal cual, sin procesarlos.
+
+sobre/certificaciones.json: datos del sobre, con un caso de cada estado (caducada, caduca pronto, vigente, sin caducidad). Las fechas están calculadas para septiembre–octubre de 2026; si la prueba es más tarde, acerca la caducidad de "Google Cloud Digital Leader" a menos de 60 días.
+
+La spec, el sobre y las instrucciones de los agentes están en prueba-teros-portfolio.md, en el proyecto Formación IA.
