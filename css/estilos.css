@@ -3,7 +3,7 @@
   --bg: #FFFFFF;
   --ink: #0A0A0A;
   --ink-2: #525252;
-  --muted: #595959;         /* ratio ~7.0:1 sobre blanco, margen sobre 4.5:1 */
+  --muted: #595959;
   --surface: #F5F5F5;
   --surface-hover: #E5E5E5;
   --border: #E5E5E5;
@@ -36,74 +36,112 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Utilidades */
-.container {
-  max-width: 1080px;
+/* Layout de dos columnas */
+.layout {
+  display: flex;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
 }
 
-@media (max-width: 639px) {
-  .container {
-    padding: 0 16px;
-  }
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 280px;
+  min-width: 240px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 32px;
+  border-right: 1px solid var(--border);
 }
 
-/* Tipografía */
-.eyebrow {
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--muted);
+.content {
+  flex: 1;
+  max-width: 760px;
+  padding: 64px 48px;
 }
 
-h1 {
-  font-size: clamp(40px, 6vw, 60px);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--ink);
+/* Sidebar contenido */
+.sidebar__top {
+  margin-bottom: 32px;
 }
 
-h2 {
-  font-size: 28px;
+#nombre {
+  font-size: 32px;
   font-weight: 600;
   letter-spacing: -0.02em;
+  line-height: 1.1;
   color: var(--ink);
-}
-
-/* Header */
-header {
-  text-align: center;
-  padding: 96px 0 0;
-}
-
-header .eyebrow {
-  margin-bottom: 16px;
-}
-
-header h1 {
   margin-bottom: 12px;
 }
 
 #titular {
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
   color: var(--muted);
-  max-width: 560px;
-  margin: 0 auto 28px;
+}
+
+/* Navegación de secciones */
+.sidebar__nav {
+  margin-bottom: auto;
+}
+
+.sidebar__nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar__nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.15s ease;
+  min-height: 44px;
+}
+
+.sidebar__nav a::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: var(--border);
+  transition: width 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sidebar__nav a:hover {
+  color: var(--ink);
+}
+
+.sidebar__nav a:hover::before {
+  width: 32px;
+  background: var(--ink);
+}
+
+.sidebar__nav a:focus-visible {
+  outline: var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Contacto sidebar */
+.sidebar__contacto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
 }
 
 /* Botones */
-.acciones {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 80px;
-}
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -143,36 +181,39 @@ header h1 {
   background: var(--surface-hover);
 }
 
-/* Main */
-main {
-  padding-bottom: 80px;
+/* Tipografía secciones */
+.eyebrow {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  margin-bottom: 8px;
 }
 
-main > section {
-  margin-bottom: 80px;
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 24px;
 }
 
-@media (max-width: 639px) {
-  main > section {
-    margin-bottom: 56px;
-  }
+/* Secciones */
+.content > section {
+  margin-bottom: 72px;
+}
+
+.content > section:last-child {
+  margin-bottom: 0;
 }
 
 /* Sobre mí */
-#sobre-mi h2 {
-  margin-bottom: 16px;
-}
-
 #sobre-mi-texto {
   font-size: 15px;
   line-height: 24px;
   color: var(--ink-2);
   max-width: 720px;
-}
-
-/* Proyectos */
-#proyectos h2 {
-  margin-bottom: 24px;
 }
 
 /* Filtros */
@@ -187,7 +228,7 @@ main > section {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
+  height: 36px;
   padding: 0 14px;
   border-radius: var(--radius-btn);
   font-size: 14px;
@@ -198,6 +239,7 @@ main > section {
   cursor: pointer;
   transition: background 0.15s ease;
   min-width: 44px;
+  min-height: 44px;
 }
 
 .filtro:hover {
@@ -224,50 +266,45 @@ main > section {
   margin-bottom: 24px;
 }
 
-/* Rejilla proyectos */
+/* Proyectos — filas horizontales */
 #lista-proyectos {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-@media (min-width: 640px) {
-  #lista-proyectos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  #lista-proyectos {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Tarjetas de proyecto */
-.tarjeta {
+.fila-proyecto {
+  display: flex;
+  gap: 20px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  overflow: hidden;
+  padding: 20px;
   transition: border-color 0.15s ease;
+  overflow: hidden;
 }
 
-.tarjeta:hover {
+.fila-proyecto:hover {
   border-color: #D4D4D4;
 }
 
-.tarjeta__imagen {
-  width: 100%;
+.fila-proyecto__imagen {
+  width: 200px;
+  flex-shrink: 0;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  border-radius: 8px;
   display: block;
 }
 
-.tarjeta__contenido {
-  padding: 20px;
+.fila-proyecto__contenido {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.tarjeta__titulo {
+.fila-proyecto__titulo {
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -275,14 +312,14 @@ main > section {
   margin-bottom: 8px;
 }
 
-.tarjeta__descripcion {
+.fila-proyecto__descripcion {
   font-size: 15px;
   line-height: 24px;
   color: var(--ink-2);
   margin-bottom: 12px;
 }
 
-.tarjeta__chips {
+.fila-proyecto__chips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -300,7 +337,7 @@ main > section {
   color: var(--ink);
 }
 
-.tarjeta__enlace {
+.fila-proyecto__enlace {
   font-size: 14px;
   font-weight: 500;
   color: var(--ink);
@@ -310,13 +347,14 @@ main > section {
   gap: 4px;
   min-height: 44px;
   min-width: 44px;
+  margin-top: auto;
 }
 
-.tarjeta__enlace:hover {
+.fila-proyecto__enlace:hover {
   text-decoration: underline;
 }
 
-.tarjeta__enlace:focus-visible {
+.fila-proyecto__enlace:focus-visible {
   outline: var(--focus);
   outline-offset: 2px;
 }
@@ -337,6 +375,8 @@ footer {
   border-top: 1px solid var(--border);
   padding: 24px 0;
   text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 footer p {
@@ -347,6 +387,10 @@ footer p {
 footer a {
   color: var(--ink);
   text-decoration: none;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 footer a:hover {
@@ -358,27 +402,11 @@ footer a:focus-visible {
   outline-offset: 2px;
 }
 
-/* Certificaciones */
-#certificaciones h2 {
-  margin-bottom: 24px;
-}
-
+/* Certificaciones — rejilla */
 .grid-certificaciones {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-}
-
-@media (min-width: 640px) {
-  .grid-certificaciones {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid-certificaciones {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 .cert-card {
@@ -491,4 +519,80 @@ footer a:focus-visible {
 
 .cert-card--sin-caducidad .cert-card__estado::before {
   content: '− ';
+}
+
+/* Responsive — breakpoint 900px para layout */
+@media (max-width: 899px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    width: 100%;
+    min-width: auto;
+    max-width: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 32px 20px;
+  }
+
+  .sidebar__nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sidebar__nav a {
+    min-height: 44px;
+    padding: 8px 12px;
+    background: var(--surface);
+    border-radius: var(--radius-btn);
+  }
+
+  .sidebar__nav a::before {
+    display: none;
+  }
+
+  .sidebar__contacto {
+    margin-top: 24px;
+  }
+
+  .content {
+    padding: 40px 20px;
+    max-width: none;
+  }
+
+  .content > section {
+    margin-bottom: 48px;
+  }
+
+  .filtro {
+    height: 44px;
+  }
+}
+
+/* Responsive — breakpoint 640px para proyectos */
+@media (max-width: 639px) {
+  .fila-proyecto {
+    flex-direction: column;
+  }
+
+  .fila-proyecto__imagen {
+    width: 100%;
+  }
+}
+
+/* Responsive — certificaciones rejilla */
+@media (min-width: 640px) {
+  .grid-certificaciones {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-certificaciones {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

@@ -82,35 +82,35 @@
 
   let filtroActivo = 'Todas';
 
-  function renderTarjeta(p) {
+  function renderFila(p) {
     const article = document.createElement('article');
-    article.className = 'tarjeta';
+    article.className = 'fila-proyecto';
 
     if (p.imagen) {
       const img = document.createElement('img');
       img.src = p.imagen;
       img.alt = (p.nombre || 'Proyecto') + (p.descripcion ? ' — ' + p.descripcion.slice(0, 80) : '');
-      img.className = 'tarjeta__imagen';
+      img.className = 'fila-proyecto__imagen';
       img.loading = 'lazy';
       article.appendChild(img);
     }
 
     const contenido = document.createElement('div');
-    contenido.className = 'tarjeta__contenido';
+    contenido.className = 'fila-proyecto__contenido';
 
     const titulo = document.createElement('h3');
-    titulo.className = 'tarjeta__titulo';
+    titulo.className = 'fila-proyecto__titulo';
     titulo.textContent = p.nombre || 'Proyecto sin nombre';
     contenido.appendChild(titulo);
 
     const desc = document.createElement('p');
-    desc.className = 'tarjeta__descripcion';
+    desc.className = 'fila-proyecto__descripcion';
     desc.textContent = p.descripcion || '';
     contenido.appendChild(desc);
 
     if (Array.isArray(p.tecnologias) && p.tecnologias.length) {
       const chips = document.createElement('div');
-      chips.className = 'tarjeta__chips';
+      chips.className = 'fila-proyecto__chips';
       p.tecnologias.forEach(t => {
         const chip = document.createElement('span');
         chip.className = 'chip';
@@ -121,7 +121,7 @@
     }
 
     const enlace = document.createElement('a');
-    enlace.className = 'tarjeta__enlace';
+    enlace.className = 'fila-proyecto__enlace';
     enlace.href = p.url || p.repo || '#';
     enlace.target = '_blank';
     enlace.rel = 'noopener';
@@ -138,7 +138,7 @@
       ? proyectos
       : proyectos.filter(p => Array.isArray(p.tecnologias) && p.tecnologias.includes(filtro));
 
-    filtrados.forEach(p => contenedor.appendChild(renderTarjeta(p)));
+    filtrados.forEach(p => contenedor.appendChild(renderFila(p)));
 
     contador.textContent = filtrados.length + ' proyecto' + (filtrados.length !== 1 ? 's' : '');
     sinResultados.hidden = filtrados.length > 0;

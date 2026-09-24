@@ -10,41 +10,56 @@
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-  <header class="container">
-    <p class="eyebrow">PORTFOLIO</p>
-    <h1 id="nombre"></h1>
-    <p id="titular"></p>
-    <div class="acciones">
-      <a id="github" href="#" target="_blank" rel="noopener" class="btn btn--primario">GitHub</a>
-      <a id="linkedin" href="#" target="_blank" rel="noopener" class="btn btn--secundario">LinkedIn</a>
-      <a id="correo" href="#" class="btn btn--secundario">Correo</a>
-    </div>
-  </header>
+  <div class="layout">
+    <header class="sidebar">
+      <div class="sidebar__top">
+        <h1 id="nombre"></h1>
+        <p id="titular"></p>
+      </div>
 
-  <main class="container">
-    <section id="sobre-mi" aria-labelledby="sobre-mi-titulo">
-      <h2 id="sobre-mi-titulo">Sobre mí</h2>
-      <p id="sobre-mi-texto"></p>
-    </section>
+      <nav aria-label="Secciones" class="sidebar__nav">
+        <ul>
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#certificaciones">Certificaciones</a></li>
+        </ul>
+      </nav>
 
-    <section id="proyectos" aria-labelledby="proyectos-titulo">
-      <h2 id="proyectos-titulo">Proyectos</h2>
-      <nav id="filtros" aria-label="Filtrar proyectos por tecnología"></nav>
-      <p id="contador" aria-live="polite"></p>
-      <div id="lista-proyectos"></div>
-      <p id="sin-resultados" class="estado-vacio" hidden>No hay proyectos con esta tecnología</p>
-      <p id="error-proyectos" class="estado-vacio" hidden>No se han podido cargar los proyectos</p>
-    </section>
+      <div class="sidebar__contacto">
+        <a id="correo" href="#" class="btn btn--primario">Correo</a>
+        <a id="github" href="#" target="_blank" rel="noopener" class="btn btn--secundario">GitHub</a>
+        <a id="linkedin" href="#" target="_blank" rel="noopener" class="btn btn--secundario">LinkedIn</a>
+      </div>
+    </header>
 
-    <section id="certificaciones" aria-labelledby="certificaciones-titulo">
-      <h2 id="certificaciones-titulo">Certificaciones</h2>
-      <div id="certificaciones-contenedor" class="grid-certificaciones"></div>
-      <p id="certificaciones-error" class="estado-vacio" hidden>No se han podido cargar las certificaciones</p>
-      <p id="certificaciones-vacio" class="estado-vacio" hidden>No hay certificaciones</p>
-    </section>
-  </main>
+    <main class="content">
+      <section id="sobre-mi" aria-labelledby="sobre-mi-titulo">
+        <p class="eyebrow">SOBRE MÍ</p>
+        <h2 id="sobre-mi-titulo">Sobre mí</h2>
+        <p id="sobre-mi-texto"></p>
+      </section>
 
-  <footer class="container">
+      <section id="proyectos" aria-labelledby="proyectos-titulo">
+        <p class="eyebrow">PROYECTOS</p>
+        <h2 id="proyectos-titulo">Proyectos</h2>
+        <nav id="filtros" aria-label="Filtro por tecnología"></nav>
+        <p id="contador" aria-live="polite"></p>
+        <div id="lista-proyectos"></div>
+        <p id="sin-resultados" class="estado-vacio" hidden>No hay proyectos con esta tecnología</p>
+        <p id="error-proyectos" class="estado-vacio" hidden>No se han podido cargar los proyectos</p>
+      </section>
+
+      <section id="certificaciones" aria-labelledby="certificaciones-titulo">
+        <p class="eyebrow">CERTIFICACIONES</p>
+        <h2 id="certificaciones-titulo">Certificaciones</h2>
+        <div id="certificaciones-contenedor" class="grid-certificaciones"></div>
+        <p id="certificaciones-error" class="estado-vacio" hidden>No se han podido cargar las certificaciones</p>
+        <p id="certificaciones-vacio" class="estado-vacio" hidden>No hay certificaciones</p>
+      </section>
+    </main>
+  </div>
+
+  <footer>
     <p>
       <a id="footer-github" href="#" target="_blank" rel="noopener">GitHub</a> ·
       <a id="footer-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a> ·
