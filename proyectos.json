@@ -22,7 +22,7 @@
     "url": "https://alex-ejemplo.github.io/tienda-discos/",
     "repo": "https://github.com/alex-ejemplo/tienda-discos",
     "fecha": "2026-01",
-    "imagen": "images/tienda-discos.svg",
+    "imagen": "img/tienda-discos.png",
     "snippet": null
   },
   {
@@ -67,7 +67,7 @@
     "url": null,
     "repo": "https://github.com/alex-ejemplo/recetas",
     "fecha": "2025-06",
-    "imagen": "images/recetas.svg",
+    "imagen": "img/recetas.png",
     "snippet": null
   },
   {
