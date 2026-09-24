@@ -3,7 +3,7 @@
   --bg: #FFFFFF;
   --ink: #0A0A0A;
   --ink-2: #525252;
-  --muted: #737373;
+  --muted: #595959;         /* ratio ~7.0:1 sobre blanco, margen sobre 4.5:1 */
   --surface: #F5F5F5;
   --surface-hover: #E5E5E5;
   --border: #E5E5E5;
