@@ -43,7 +43,7 @@
   fCo.href = perfil.correo ? 'mailto:' + perfil.correo : defaults.correo;
 })();
 
-// T5 + T6 — Carga de proyectos, renderizado y filtros
+// T5 + T6 + T8 — Carga de proyectos, renderizado, filtros y errores
 (async function initProyectos() {
   let proyectos = [];
   try {
@@ -54,12 +54,17 @@
   } catch (err) {
     console.error('Error cargando proyectos.json:', err);
     document.getElementById('error-proyectos').hidden = false;
+    // Ocultar filtros y contador para no confundir
+    document.getElementById('filtros').hidden = true;
+    document.getElementById('contador').hidden = true;
     return;
   }
 
   if (proyectos.length === 0) {
     document.getElementById('sin-resultados').textContent = 'No hay proyectos todavía';
     document.getElementById('sin-resultados').hidden = false;
+    document.getElementById('filtros').hidden = true;
+    document.getElementById('contador').hidden = true;
     return;
   }
 
@@ -86,7 +91,7 @@
     if (p.imagen) {
       const img = document.createElement('img');
       img.src = p.imagen;
-      img.alt = p.nombre || 'Proyecto';
+      img.alt = (p.nombre || 'Proyecto') + (p.descripcion ? ' — ' + p.descripcion.slice(0, 80) : '');
       img.className = 'tarjeta__imagen';
       img.loading = 'lazy';
       article.appendChild(img);
@@ -97,12 +102,12 @@
 
     const titulo = document.createElement('h3');
     titulo.className = 'tarjeta__titulo';
-    titulo.textContent = p.nombre;
+    titulo.textContent = p.nombre || 'Proyecto sin nombre';
     contenido.appendChild(titulo);
 
     const desc = document.createElement('p');
     desc.className = 'tarjeta__descripcion';
-    desc.textContent = p.descripcion;
+    desc.textContent = p.descripcion || '';
     contenido.appendChild(desc);
 
     if (Array.isArray(p.tecnologias) && p.tecnologias.length) {
@@ -151,7 +156,6 @@
     btn.addEventListener('click', () => {
       if (filtroActivo === tec) return;
       filtroActivo = tec;
-      // Actualizar aria-pressed en todos los botones
       filtrosNav.querySelectorAll('.filtro').forEach(b => {
         b.setAttribute('aria-pressed', b.textContent === filtroActivo ? 'true' : 'false');
       });
