@@ -224,7 +224,7 @@ main > section {
   margin-bottom: 24px;
 }
 
-/* Rejilla */
+/* Rejilla proyectos */
 #lista-proyectos {
   display: grid;
   grid-template-columns: 1fr;
@@ -243,7 +243,7 @@ main > section {
   }
 }
 
-/* Tarjetas */
+/* Tarjetas de proyecto */
 .tarjeta {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -356,4 +356,139 @@ footer a:hover {
 footer a:focus-visible {
   outline: var(--focus);
   outline-offset: 2px;
+}
+
+/* Certificaciones */
+#certificaciones h2 {
+  margin-bottom: 24px;
+}
+
+.grid-certificaciones {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .grid-certificaciones {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-certificaciones {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cert-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  transition: border-color 0.15s ease;
+}
+
+.cert-card:hover {
+  border-color: #D4D4D4;
+}
+
+.cert-card__nombre {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.cert-card__nombre a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.cert-card__nombre a:hover {
+  text-decoration: underline;
+}
+
+.cert-card__nombre a:focus-visible {
+  outline: var(--focus);
+  outline-offset: 2px;
+}
+
+.cert-card__entidad {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.cert-card__fecha {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+
+.cert-card__estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-chip);
+  margin-top: 4px;
+}
+
+/* Estados de certificación — texto + distintivo visual, nunca solo color */
+.cert-card--caducada {
+  border-width: 2px;
+  border-color: #991b1b;
+  background: #fef2f2;
+}
+
+.cert-card--caducada .cert-card__estado {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.cert-card--caducada .cert-card__estado::before {
+  content: '⚠️ ';
+}
+
+.cert-card--pronto {
+  border-color: #92400e;
+}
+
+.cert-card--pronto .cert-card__estado {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.cert-card--pronto .cert-card__estado::before {
+  content: '⏰ ';
+}
+
+.cert-card--vigente {
+  border-color: #166534;
+}
+
+.cert-card--vigente .cert-card__estado {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.cert-card--vigente .cert-card__estado::before {
+  content: '✓ ';
+}
+
+.cert-card--sin-caducidad {
+  border-color: var(--border);
+}
+
+.cert-card--sin-caducidad .cert-card__estado {
+  color: var(--muted);
+  background: var(--surface);
+}
+
+.cert-card--sin-caducidad .cert-card__estado::before {
+  content: '− ';
 }

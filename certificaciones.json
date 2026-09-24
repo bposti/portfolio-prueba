@@ -1,0 +1,37 @@
+[
+  {
+    "nombre": "Oracle Certified Professional: Java SE 11 Developer",
+    "entidad": "Oracle",
+    "obtenida": "2023-03-15",
+    "caduca": "2025-03-15",
+    "url": null
+  },
+  {
+    "nombre": "AWS Certified Cloud Practitioner",
+    "entidad": "Amazon Web Services",
+    "obtenida": "2024-06-20",
+    "caduca": "2026-10-20",
+    "url": "https://www.credly.com/badges/aws-cloud-practitioner"
+  },
+  {
+    "nombre": "Meta Front-End Developer (React Advanced)",
+    "entidad": "Meta",
+    "obtenida": "2025-01-10",
+    "caduca": "2027-01-10",
+    "url": null
+  },
+  {
+    "nombre": "Professional Scrum Master I",
+    "entidad": "Scrum.org",
+    "obtenida": "2024-09-01",
+    "caduca": null,
+    "url": "https://www.scrum.org/certificates/professional-scrum-master-i"
+  },
+  {
+    "nombre": "Docker Certified Associate",
+    "entidad": "Docker",
+    "obtenida": "2025-08-15",
+    "caduca": "2027-08-15",
+    "url": null
+  }
+]

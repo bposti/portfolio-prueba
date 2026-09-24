@@ -54,7 +54,6 @@
   } catch (err) {
     console.error('Error cargando proyectos.json:', err);
     document.getElementById('error-proyectos').hidden = false;
-    // Ocultar filtros y contador para no confundir
     document.getElementById('filtros').hidden = true;
     document.getElementById('contador').hidden = true;
     return;
@@ -73,7 +72,6 @@
   const contador = document.getElementById('contador');
   const sinResultados = document.getElementById('sin-resultados');
 
-  // Extraer tecnologías únicas y ordenar alfabéticamente
   const tecnologiasSet = new Set();
   proyectos.forEach(p => {
     if (Array.isArray(p.tecnologias)) {
@@ -162,13 +160,6 @@
       renderProyectos(filtroActivo);
     });
 
-    btn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        btn.click();
-      }
-    });
-
     return btn;
   }
 
@@ -177,4 +168,106 @@
   });
 
   renderProyectos('Todas');
+})();
+
+// T14 + T15 — Carga, renderizado, estados y errores de certificaciones
+(async function initCertificaciones() {
+  let certificaciones = [];
+  const contenedor = document.getElementById('certificaciones-contenedor');
+  const errorMsg = document.getElementById('certificaciones-error');
+  const vacioMsg = document.getElementById('certificaciones-vacio');
+
+  try {
+    const res = await fetch('certificaciones.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    certificaciones = await res.json();
+    if (!Array.isArray(certificaciones)) throw new Error('certificaciones.json no es un array');
+  } catch (err) {
+    console.error('Error cargando certificaciones.json:', err);
+    errorMsg.hidden = false;
+    contenedor.innerHTML = '';
+    return;
+  }
+
+  if (certificaciones.length === 0) {
+    vacioMsg.hidden = false;
+    contenedor.innerHTML = '';
+    return;
+  }
+
+  function formatearFecha(fechaStr) {
+    if (!fechaStr) return null;
+    const d = new Date(fechaStr + 'T00:00:00');
+    if (isNaN(d)) return null;
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  function calcularEstado(cert) {
+    if (cert.caduca === null) {
+      return { estado: 'Sin caducidad', clase: 'cert-card--sin-caducidad' };
+    }
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const caduca = new Date(cert.caduca + 'T00:00:00');
+    caduca.setHours(0, 0, 0, 0);
+
+    const diffMs = caduca - hoy;
+    const diffDias = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDias < 0) {
+      return { estado: 'Caducada', clase: 'cert-card--caducada' };
+    }
+    if (diffDias <= 60) {
+      return { estado: 'Caduca pronto', clase: 'cert-card--pronto' };
+    }
+    return { estado: 'Vigente', clase: 'cert-card--vigente' };
+  }
+
+  certificaciones.sort((a, b) => {
+    const da = new Date(a.obtenida + 'T00:00:00');
+    const db = new Date(b.obtenida + 'T00:00:00');
+    return db - da;
+  });
+
+  certificaciones.forEach(cert => {
+    const card = document.createElement('article');
+    const { estado, clase } = calcularEstado(cert);
+    card.className = 'cert-card ' + clase;
+
+    const nombre = document.createElement('div');
+    nombre.className = 'cert-card__nombre';
+    if (cert.url) {
+      const a = document.createElement('a');
+      a.href = cert.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = cert.nombre;
+      nombre.appendChild(a);
+    } else {
+      nombre.textContent = cert.nombre;
+    }
+    card.appendChild(nombre);
+
+    const entidad = document.createElement('div');
+    entidad.className = 'cert-card__entidad';
+    entidad.textContent = cert.entidad;
+    card.appendChild(entidad);
+
+    const fechaObtenida = document.createElement('div');
+    fechaObtenida.className = 'cert-card__fecha';
+    fechaObtenida.textContent = 'Obtenida: ' + formatearFecha(cert.obtenida);
+    card.appendChild(fechaObtenida);
+
+    const estadoEl = document.createElement('div');
+    estadoEl.className = 'cert-card__estado';
+    let estadoTexto = estado;
+    if (cert.caduca !== null) {
+      estadoTexto += ' · Caduca: ' + formatearFecha(cert.caduca);
+    }
+    estadoEl.textContent = estadoTexto;
+    card.appendChild(estadoEl);
+
+    contenedor.appendChild(card);
+  });
 })();
