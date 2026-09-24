@@ -1,197 +1,307 @@
-# tasks.md \u00b7 Portfolio de Alex
+# tasks.md · Portfolio de Alex · v3
 
-## Decisiones de dise\u00f1o aprobadas por Alex
+## Decisiones técnicas
 
-| Decisi\u00f3n | Valor aprobado | Notas |
-|----------|----------------|-------|
-| **Direcci\u00f3n** | Monocromo, blanco y neutros, mucho aire. Sin color de acento: la jerarqu\u00eda se hace con peso tipogr\u00e1fico, tama\u00f1o y gris, no con color. Superficies planas, sin sombras. | No sombras, no degradados, no iconos decorativos, no animaciones, no azul #2563EB/#1E40AF. |
-| **Fuente** | Geist (Google Fonts, pesos 400/500/600, `font-display: swap`). Fallback: `-apple-system`, `"Segoe UI"`, Helvetica, Arial, sans-serif. | \u00danica dependencia externa permitida por la spec. |
-| **Cabecera** | Todo centrado, tipo landing: eyebrow "PORTFOLIO", nombre en h1, titular en gris, y debajo los tres enlaces como botones pill: GitHub en `--btn` con texto `--btn-ink`; LinkedIn y Correo en `--surface` con texto `--ink`. Sin barra de navegaci\u00f3n superior (no est\u00e1 en el alcance). | |
-| **Filtros** | Pills en fila con `flex-wrap` y gap 8px en todos los tama\u00f1os; nada de scroll horizontal. Inactivo: fondo `--surface`, texto `--ink`; hover `--surface-hover`. Activo: fondo `--btn`, texto `--btn-ink` (adem\u00e1s de `aria-pressed`). Altura 36px en desktop y 44px m\u00ednimo en m\u00f3vil (criterio 11). Padding 0 14px, radio `--radius-btn`. Foco visible con `--focus`. El contador "N proyectos" va a la derecha o debajo de la fila, en estilo eyebrow. | |
-| **Tarjetas** | Fondo `--bg` (blanco, no gris: las im\u00e1genes de los proyectos tienen fondo blanco y sobre gris se ver\u00edan como un rect\u00e1ngulo pegado), borde 1px `--border`, radio `--radius-card`, sin sombra. Imagen 16:9 arriba, a sangre, recortada con el radio de la tarjeta; sin imagen, la tarjeta empieza directamente en el texto sin hueco (criterio 4). Padding interior 20px. Debajo del t\u00edtulo, chips de tecnolog\u00edas (fondo `--surface`, texto `--ink`, radio `--radius-chip`, padding 2px 8px). Enlace "Ver proyecto \u2197" como texto en 500, `--ink`, subrayado solo en hover. Hover de la tarjeta: borde pasa a `#D4D4D4`, nada m\u00e1s. | |
-| **Rejilla y espaciado** | Contenedor m\u00e1x. 1080px centrado, padding lateral 24px (16px en m\u00f3vil). Rejilla de tarjetas: 1 columna, 2 desde 640px, 3 desde 1024px, gap 24px (criterio 10). Separaci\u00f3n entre secciones 80px en desktop y 56px en m\u00f3vil; la cabecera con 96px de aire arriba. | |
-| **Estados vac\u00edo/error** | Texto 14px `--muted` centrado dentro de una caja `--surface` con borde `--border` y radio `--radius-card`. | |
-| **Pie** | Borde superior 1px `--border`, 14px, `--muted`, con los enlaces en `--ink`. | |
+**Stack:** HTML, CSS y JS planos. Sin frameworks ni procesos de build. La raíz del repo se sirve tal cual en GitHub Pages.
 
----
-
-## Tokens CSS (custom properties en :root)
-
-```css
---bg: #FFFFFF;            /* fondo de p\u00e1gina y de tarjetas */
---ink: #0A0A0A;           /* texto principal */
---ink-2: #525252;         /* descripciones y texto secundario */
---muted: #737373;         /* eyebrows, metadatos, pie \u2014 SOLO sobre blanco */
---surface: #F5F5F5;       /* botones inactivos, chips, cajas */
---surface-hover: #E5E5E5;
---border: #E5E5E5;
---btn: #171717;           /* bot\u00f3n/filtro activo */
---btn-ink: #FAFAFA;
---radius-btn: 10px;
---radius-card: 12px;
---radius-chip: 8px;
---focus: 2px solid #0A0A0A; outline-offset: 2px;
+**Estructura de ficheros:**
+```
+portfolio-prueba/
+├── index.html              # Estructura base; metadatos OG estáticos (scrapers no ejecutan JS)
+├── css/estilos.css         # Sistema de diseño del cliente; se usa tal cual
+├── js/app.js               # Carga JSON, renderiza secciones, filtra proyectos, actividad GitHub
+├── spec.md                 # Esta especificación
+├── tasks.md                # Este documento
+├── perfil.json             # Datos de perfil, hero, barra, contacto, pie
+├── proyectos.json          # Datos de proyectos (destacados + rejilla)
+├── certificaciones.json    # Datos de certificaciones
+├── img/                    # Imágenes de proyectos y foto (subidas por el usuario)
+└── og.png                  # Imagen Open Graph (subida por el usuario)
 ```
 
----
+**Cómo se cargan los JSON:** Rutas relativas desde la raíz del repo. La web vive bajo la subruta `/portfolio-prueba/`, por lo que las rutas en el JS usan `./perfil.json`, `./proyectos.json`, etc. Si un JSON no carga o está mal formado, la sección afectada muestra un mensaje de error y el resto de la página sigue funcionando.
 
-## Tipograf\u00eda
-
-| Elemento | Tama\u00f1o | Peso | Otros | Color |
-|----------|--------|------|-------|-------|
-| Nombre (h1) | clamp(40px, 6vw, 60px) | 600 | letter-spacing: -0.025em, line-height: 1.05 | --ink |
-| Titular bajo nombre | 18px / 28px | 400 | | --muted |
-| Eyebrow (secciones, contador) | 14px | 500 | may\u00fasculas, letter-spacing: 0.16em | --muted |
-| h2 de secci\u00f3n | 28px | 600 | letter-spacing: -0.02em | --ink |
-| T\u00edtulo de tarjeta | 18px | 600 | letter-spacing: -0.01em | --ink |
-| Descripci\u00f3n | 15px / 24px | 400 | | --ink-2 |
-| Botones y enlaces de acci\u00f3n | 14px | 500 | | --ink |
-| Chips | 12px | 500 | | --ink |
-
-Fuente: Geist desde Google Fonts (400/500/600, `font-display: swap`). Fallback: `-apple-system`, `"Segoe UI"`, Helvetica, Arial, sans-serif.
+**Cómo se despliega:** GitHub Pages sirve la rama `main` directamente. Cada push a `main` se refleja en la URL pública sin pasos manuales adicionales.
 
 ---
 
-## Auditor\u00eda de la spec (notas para el equipo)
+## Decisiones técnicas · diseño v3
 
-| # | Hueco | Decisi\u00f3n tomada |
-|---|-------|-----------------|
-| 1 | No se define qu\u00e9 ocurre si `perfil.json` no carga (solo `proyectos.json` en CA-18). | La cabecera y el pie muestran textos gen\u00e9ricos ("Portfolio", "Desarrollador") y un `console.error`. El resto de la p\u00e1gina sigue. |
-| 2 | No se especifica si el orden de tarjetas se mantiene tras filtrar. | Se mantiene el orden del array original de `proyectos.json`. |
-| 3 | CA-10: "tres columnas como m\u00ednimo" \u2014 \u00bfhay l\u00edmite superior? | Implementamos 1/2/3 columnas seg\u00fan viewport (1 default, 2 desde 640px, 3 desde 1024px). En pantallas >1440px podr\u00edan ser 4, pero no es un requisito. Se asegura m\u00ednimo 3 a 1024px. |
-| 4 | CA-4: si `imagen` es null, \u00bfla tarjeta se compacta o mantiene altura? | Layout flexible sin hueco: no se renderiza el elemento `<img>` ni se reserva espacio. |
+El CSS y la plantilla HTML son del cliente y se usan **tal cual**, sin modificaciones. El sistema de diseño es "editorial de desarrollador": monocromo con un acento elegido en `perfil.json`, tipografías Geist y Geist Mono desde Google Fonts, tres animaciones exactas (entrada del hero, hover de capturas, fundido del filtro) y ninguna más, respetando `prefers-reduced-motion: reduce`.
+
+Si el Dev necesita una clase que no existe en `css/estilos.css`, la añade al final del fichero bajo el comentario `/* Añadido por el Dev */` y avisa. Cualquier cambio de diseño se aprueba en `spec.md` antes de tocar el CSS.
+
+**Mapeo de bloques de la spec a id/clase de la plantilla:**
+
+| Bloque de la spec | Selector(es) en `plantilla-index.html` |
+|---|---|
+| **Barra superior** | `.topbar`, `#brand`, `#brand-img`, `#brand-name`, `.topnav` (nav[aria-label="Secciones"]), `#pill-top`, `#btn-correo-top` |
+| **Hero** | `.hero`, `#avatar`, `#pill-hero`, `#claim` (h1), `#intro`, `#acciones` |
+| **Filtros** | `.filters-row`, `#filtros` (nav[aria-label="Filtro por tecnología"]), `#contador` (aria-live="polite") |
+| **Destacados** | `.featured-list`, `#destacados`, `#mas-label` |
+| **Rejilla** | `.grid`, `#lista` |
+| **Sobre mí** | `#sobre-mi`, `#sobre-texto`, `#ahora-wrap`, `#ahora`, `#stack-wrap`, `#stack` |
+| **Actividad** | `#actividad`, `#heat-wrap`, `#heat`, `#heat-total`, `#actividad-vacio` |
+| **Certificaciones** | `#certificaciones`, `#certs`, `#certificaciones-vacio`, `#certificaciones-error` |
+| **Contacto** | `#contacto`, `#h-contacto`, `#contacto-texto`, `#email`, `#copiar`, `#copiado` (aria-live), `#acciones-2` |
+| **Pie** | `footer`, `#spec-link`, `#actualizado` |
 
 ---
 
-## Tareas
+## Historias de usuario [v3]
 
-### T1 \u2014 Setup: estructura de archivos y JSONs de ejemplo
-**Qu\u00e9:** Crear `index.html`, `css/estilos.css`, `js/app.js`, `perfil.json`, `proyectos.json` en el repo. Los JSONs deben contener datos de ejemplo v\u00e1lidos que cubran todos los casos de borde.
-**Dependencias:** Ninguna.
-**Definici\u00f3n de hecho:**
-- [ ] Los 5 archivos existen en la rama `main` del repo.
-- [ ] `proyectos.json` tiene \u22653 proyectos con variaci\u00f3n de campos opcionales (con/sin `url`, con/sin `imagen`, m\u00faltiples tecnolog\u00edas).
-- [ ] `perfil.json` tiene todos los campos obligatorios.
-- [ ] Las rutas son relativas y funcionar\u00e1n bajo la subruta `/portfolio-prueba/`.
-- [ ] Geist anotada como \u00fanica dependencia externa permitida (se implementa en T2).
+### H1 — Estructura HTML semántica y metadatos estáticos
+**Qué:** Implementar `index.html` a partir de `plantilla-index.html`, manteniendo la semántica, los `aria-label`, el `lang="es"`, un único `h1`, `h2` por sección, `header`/`main`/`footer`, dos `nav` con `aria-label` distintos, y los metadatos OG estáticos que los scrapers puedan leer sin JS.
 
-### T2 \u2014 HTML sem\u00e1ntico y estructura est\u00e1tica
-**Qu\u00e9:** Escribir `index.html` con estructura sem\u00e1ntica, accesible, sin datos hardcodeados, con Geist cargada desde Google Fonts.
-**Dependencias:** T1.
-**Definici\u00f3n de hecho:**
-- [ ] Pasa validador W3C sin errores.
-- [ ] Un solo `h1`, cada secci\u00f3n con `h2`.
-- [ ] `header`, `main`, `footer`, `nav` presentes y correctamente anidados.
-- [ ] No hay texto de perfil ni proyectos hardcodeado en el HTML.
+**Criterios cubiertos:** CA14 (semántica), D5 (OG estáticos en HTML).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Validador W3C sin errores.
+- [ ] Exactamente un `h1` (el claim; si no hay claim, el titular).
+- [ ] Cada sección (`#proyectos`, `#sobre-mi`, `#actividad`, `#certificaciones`, `#contacto`) tiene su `h2`.
+- [ ] `header` (barra), `main`, `footer` presentes.
+- [ ] Dos `nav`: uno `aria-label="Secciones"` (barra), otro `aria-label="Filtro por tecnología"` (filtros).
 - [ ] `lang="es"` en `<html>`.
-- [ ] Geist cargada desde Google Fonts con `font-display: swap`.
-- [ ] Estructura de cabecera refleja dise\u00f1o aprobado: eyebrow "PORTFOLIO", h1 centrado, titular, botones pill.
+- [ ] `<title>`, `meta description`, `og:title`, `og:description`, `og:image` presentes en el HTML estático.
+- [ ] `og.png` responde 200 en la URL pública.
 
-### T3 \u2014 CSS base, responsive y \u00e1reas pulsables
-**Qu\u00e9:** Implementar estilos con tokens CSS custom properties, dise\u00f1o monocromo aprobado, responsive y \u00e1reas pulsables \u226544px.
-**Dependencias:** T2.
-**Definici\u00f3n de hecho:**
-- [ ] Tokens CSS en `:root` con todos los valores aprobados.
-- [ ] A 360px: 1 columna, sin scroll horizontal.
-- [ ] A 1024px: \u22653 columnas.
-- [ ] Todos los botones de filtro y enlaces de tarjeta tienen \u00e1rea \u226544\u00d744px.
-- [ ] No se usan `!important` ni hacks de CSS.
-- [ ] Estilos validados en DevTools en ambos viewports.
-- [ ] Geist aplicada con fallback.
-- [ ] Foco visible en todos los elementos interactivos con `outline` definido.
+---
 
-### T4 \u2014 Carga y renderizado de perfil
-**Qu\u00e9:** Fetch de `perfil.json`, poblar cabecera (eyebrow, h1, titular, botones pill), "Sobre m\u00ed" y pie. Manejar error de carga.
-**Dependencias:** T1, T2.
-**Definici\u00f3n de hecho:**
-- [ ] Al cargar, la cabecera muestra datos de `perfil.json` con estilo aprobado.
-- [ ] El enlace a GitHub construye la URL correctamente desde el nombre de usuario.
-- [ ] Pie con borde superior 1px `--border`, texto 14px `--muted`, enlaces en `--ink`.
-- [ ] Si `perfil.json` falla, la p\u00e1gina no se rompe: textos gen\u00e9ricos, resto funciona.
-- [ ] Sin errores en consola en el caso feliz.
+### H2 — Carga y renderizado de perfil en barra y hero
+**Qué:** Fetch de `perfil.json`. Renderizar nombre, claim/titular, intro, estado de disponibilidad, foto, botones de acción (Correo, GitHub, LinkedIn, CV si existe) en el hero. En la barra: foto (aparece al scroll), nombre, enlaces a secciones (≥900 px), estado de disponibilidad y botón de correo. La foto y el estado de la barra no se ven mientras el hero está a la vista (D9).
 
-### T5 \u2014 Carga y renderizado de proyectos
-**Qu\u00e9:** Fetch de `proyectos.json`, generar tarjetas con dise\u00f1o monocromo aprobado (blanco, borde, sin sombra, imagen 16:9 a sangre).
-**Dependencias:** T1, T2.
-**Definici\u00f3n de hecho:**
-- [ ] Exactamente una tarjeta por objeto en `proyectos.json`.
-- [ ] Tarjeta sin imagen cuando `imagen: null` \u2014 no hay `<img>` en el DOM ni hueco visual.
-- [ ] Enlace "Ver proyecto" apunta correctamente seg\u00fan regla `url ?? repo`.
-- [ ] Cada imagen tiene `alt` descriptivo (nombre del proyecto).
-- [ ] Las tarjetas se generan desde JS; no est\u00e1n en el HTML est\u00e1tico.
-- [ ] Estilo de tarjeta refleja dise\u00f1o aprobado: blanco, borde, sin sombra, imagen 16:9 a sangre, chips `--surface`.
+**Criterios cubiertos:** CA3 (datos de perfil.json), D9 (barra condicional al scroll).
 
-### T6 \u2014 Filtro por tecnolog\u00eda
-**Qu\u00e9:** Botones de filtro din\u00e1micos (pills, flex-wrap, sin scroll horizontal), filtrado JS, `aria-pressed`, contador con `aria-live="polite"`, mensaje de cero resultados.
-**Dependencias:** T5.
-**Definici\u00f3n de hecho:**
-- [ ] Botones generados del JSON, no escritos en HTML.
-- [ ] Orden alfab\u00e9tico de tecnolog\u00edas, "Todas" al principio.
-- [ ] Filtrado funciona correctamente.
-- [ ] `aria-pressed="true"` en activo, `"false"` en inactivos.
-- [ ] Contador se actualiza y tiene `aria-live="polite"`.
-- [ ] Mensaje "No hay proyectos con esta tecnolog\u00eda" cuando aplica, con estilo aprobado.
+**Definición de hecho (verificable en URL pública):**
+- [ ] El `h1` del hero muestra `claim` si existe; si no, `titular`.
+- [ ] La intro del hero muestra `intro` si existe; si no, el primer párrafo de `sobreMi`.
+- [ ] Los botones del hero enlazan correctamente a correo, GitHub (`https://github.com/{github}`), LinkedIn y CV si existe.
+- [ ] La barra muestra nombre y enlaces a secciones desde 900 px.
+- [ ] La foto y el estado de la barra están ocultos cuando el hero es visible; aparecen al hacer scroll más allá del hero.
+- [ ] Con `foto: null`, el hero no deja hueco visual.
+- [ ] Si `perfil.json` no carga, la página no se rompe: textos genéricos, resto funciona.
+
+---
+
+### H3 — Carga y renderizado de proyectos con destacados
+**Qué:** Fetch de `proyectos.json`. Renderizar hasta dos proyectos con `destacado: true` en `.featured-list` con imagen a todo ancho (16:10, sin deformar). El resto en `.grid`. Cada tarjeta muestra nombre, fecha, descripción/resumen, tecnologías, enlace "Código" a `repo` y "Demo" a `url` si no es null (ambos con `rel="noopener"`, pestaña nueva). Si `imagen` es null, se muestra snippet si existe; si no, fallback tipográfico. Nunca imagen rota ni hueco.
+
+**Criterios cubiertos:** CA1-2 (tarjetas desde JSON), CA4 (imagen null), D1 (destacados), D2 (capturas 16:10, snippet, fallback).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Exactamente una tarjeta por objeto de `proyectos.json`, en el orden del fichero, con los dos primeros `destacado: true` arriba.
+- [ ] Los destacados usan `.featured-list` con imagen a todo ancho; el resto va a `.grid`.
+- [ ] Cada tarjeta tiene nombre, fecha, descripción o resumen, lista de tecnologías, enlace "Código" y "Demo" si aplica.
+- [ ] Enlaces abren en pestaña nueva con `rel="noopener"`.
+- [ ] Con `imagen: null`, no hay `<img>` en el DOM ni hueco visual; se ve snippet o fallback.
+- [ ] Prueba: añadir un objeto al JSON, push, recargar → una tarjeta más sin tocar nada más.
+
+---
+
+### H4 — Filtro por tecnología
+**Qué:** Generar botones de filtro dinámicamente desde `proyectos.json`: un botón por cada tecnología distinta en orden alfabético, más "Todas" al principio. Filtrar proyectos al pulsar. Botón activo con `aria-pressed="true"`; inactivos `aria-pressed="false"`. Contador "N proyectos" con `aria-live="polite"`. Mensaje "No hay proyectos con esta tecnología" si el filtro deja cero.
+
+**Criterios cubiertos:** CA5-9 (filtro completo).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Los botones se generan del JSON; no están escritos en el HTML.
+- [ ] "Todas" es el primer botón y está activo al cargar.
+- [ ] Tecnologías en orden alfabético.
+- [ ] Al pulsar una tecnología, solo quedan visibles los proyectos que la incluyen (destacados incluidos).
+- [ ] Botón activo: `aria-pressed="true"` y estilo visual distintivo; inactivos: `aria-pressed="false"`.
+- [ ] El contador "N proyectos" se actualiza con cada filtro y tiene `aria-live="polite"`.
+- [ ] Si un filtro deja cero proyectos, aparece "No hay proyectos con esta tecnología".
+- [ ] Prueba: editar JSON para que un filtro dé cero, push, recargar → mensaje visible.
+
+---
+
+### H5 — Responsive layout
+**Qué:** Asegurar que a 360 px no hay scroll horizontal, proyectos en una columna, hero visible sin scroll, botón de correo de la barra siempre a la vista. A 1024 px o más: proyectos no destacados en dos columnas, destacados con imagen a todo ancho, barra permanece visible al desplazar. Áreas pulsables ≥ 44×44 px en móvil.
+
+**Criterios cubiertos:** CA10-11 (responsive y áreas pulsables).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] A 360×640, no hay scroll horizontal; DevTools muestra `overflow-x: hidden` respetado.
+- [ ] A 360×640, proyectos en una columna; a 1024 px, no destacados en dos columnas.
+- [ ] A 360×640, estado y titular del hero visibles sin desplazarse; botón correo de la barra a la vista.
+- [ ] Barra permanece visible al desplazarse en ≥1024 px (sticky).
+- [ ] Todos los botones de filtro y enlaces de tarjetas tienen área pulsable ≥44×44 px (verificable en DevTools o con regla visual).
+
+---
+
+### H6 — Accesibilidad: teclado, foco, contraste y ARIA
+**Qué:** Toda la página operable con teclado: Tab en orden lógico, Enter/Espacio activan filtros, foco siempre visible. Contraste mínimo 4.5:1 en todo el texto, incluido botón activo y texto en color de acento. Imágenes con `alt` descriptivo. Contador del filtro en `aria-live="polite"`.
+
+**Criterios cubiertos:** CA12-13 (teclado y contraste), CA15 (imágenes y aria-live), D4 (contraste acento).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Se recorre toda la página con Tab en orden lógico (barra → hero → filtros → tarjetas → sobre mí → actividad → certificaciones → contacto → pie).
 - [ ] Enter y Espacio activan los filtros.
-- [ ] Filtros en pills con `flex-wrap`, sin scroll horizontal, altura correcta seg\u00fan viewport.
+- [ ] Foco visible en todos los enlaces y botones (outline definido).
+- [ ] Contraste ≥4.5:1 en todo el texto, medido con herramienta (WCAG contrast checker), incluido `--muted` sobre blanco, botón activo y texto en color de acento.
+- [ ] Todas las imágenes llevan `alt` no vacío.
+- [ ] El contador "N proyectos" está en una región `aria-live="polite"`.
 
-### T7 \u2014 Accesibilidad: teclado, foco y contraste
-**Qu\u00e9:** Verificar y ajustar a11y: Tab order, foco visible (`outline: 2px solid #0A0A0A; outline-offset: 2px`), contraste \u22654.5:1 en todo el texto (incluido `--muted` sobre blanco), sem\u00e1ntica, `aria-live`, `alt` en im\u00e1genes.
-**Dependencias:** T3, T4, T5, T6.
-**Definici\u00f3n de hecho:**
-- [ ] Se recorre toda la p\u00e1gina con Tab en orden l\u00f3gico.
-- [ ] Foco visible en todos los enlaces y botones.
-- [ ] Contraste \u22654.5:1 en todo el texto, incluido bot\u00f3n activo y texto `--muted` sobre blanco (evidencia con captura de herramienta).
-- [ ] `aria-live="polite"` presente en contenedor del contador.
-- [ ] Todas las im\u00e1genes tienen `alt` no vac\u00edo.
-- [ ] Lighthouse Accessibility \u2265 95.
+---
 
-### T8 \u2014 Manejo de errores y edge cases
-**Qu\u00e9:** Si `proyectos.json` no carga o est\u00e1 mal formado, mostrar "No se han podido cargar los proyectos". Si array vac\u00edo, mensaje apropiado. El resto de la p\u00e1gina sigue funcionando.
-**Dependencias:** T4, T5.
-**Definici\u00f3n de hecho:**
-- [ ] Con `proyectos.json` corrupto o 404, aparece mensaje de error y el resto funciona.
-- [ ] Con `proyectos.json` como array vac\u00edo, mensaje apropiado.
-- [ ] No hay errores en consola que detengan la ejecuci\u00f3n (solo `console.error` controlado).
-- [ ] Se prueba editando manualmente el JSON, haciendo push y recargando la URL p\u00fablica.
+### H7 — Sección Sobre mí con Ahora y Stack
+**Qué:** Renderizar párrafos de `sobreMi` en `#sobre-texto`. Renderizar lista "Ahora" desde `perfil.ahora` (máx. 3 items) en `#ahora`. Renderizar stack agrupado desde `perfil.stack` en `#stack`. Ocultar bloques si los arrays/objetos están vacíos.
 
-### T9 \u2014 Configuraci\u00f3n GitHub Pages y despliegue
-**Qu\u00e9:** Configurar el repo para servir desde `main` en la subruta `/portfolio-prueba/`. Asegurar rutas relativas. Push y verificar URL p\u00fablica.
-**Dependencias:** T1.
-**Definici\u00f3n de hecho:**
-- [ ] La URL p\u00fablica de GitHub Pages carga sin 404.
+**Criterios cubiertos:** CA3 (datos de perfil.json).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Los párrafos de `sobreMi` se renderizan como párrafos separados en `#sobre-texto`.
+- [ ] "Ahora" muestra hasta 3 items con guion como viñeta; si array vacío, bloque oculto.
+- [ ] "Stack" muestra grupos (Lenguajes, Frameworks, Herramientas) con sus items; si objeto vacío, bloque oculto.
+- [ ] Layout responsive: una columna en móvil, dos columnas (texto + aside) en ≥900 px.
+
+---
+
+### H8 — Sección Certificaciones con estados calculados
+**Qué:** Fetch de `certificaciones.json`. Renderizar una fila por certificación, ordenadas por `obtenida` descendente. Mostrar nombre (enlace si hay `url`), entidad, fecha obtención DD/MM/AAAA. Estado calculado con fecha del navegador: "Caducada" (pasada), "Caduca pronto" (≤60 días), "Vigente", "Sin caducidad" (null). Estado como texto + distintivo visual (color + icono), nunca solo por color. Caducadas destacan. Fecha de caducidad en DD/MM/AAAA junto al estado si existe.
+
+**Criterios cubiertos:** CA19-24 (certificaciones completas).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Filas ordenadas por `obtenida` descendente.
+- [ ] Nombre con enlace si `url` no es null; enlace abre en pestaña nueva.
+- [ ] Fecha de obtención en formato DD/MM/AAAA.
+- [ ] Estados calculados correctamente según la fecha del navegador al cargar.
+- [ ] Cada estado tiene texto + color + icono; caducadas destacan visualmente sobre las demás.
+- [ ] Fecha de caducidad visible junto al estado cuando existe.
+- [ ] Sección cumple responsive (CA10) y a11y (CA12-15): teclado, foco, contraste.
+- [ ] Si `certificaciones.json` no carga: "No se han podido cargar las certificaciones"; resto funciona.
+
+---
+
+### H9 — Sección Contacto con copiar correo
+**Qué:** Renderizar correo como enlace principal (`mailto:`) y botón "Copiar". Al pulsar copiar, copiar la dirección de `perfil.json` al portapapeles y mostrar "Copiado ✓" en `#copiado` con `aria-live="polite"`. Renderizar enlaces secundarios (GitHub, LinkedIn) en `#acciones-2`.
+
+**Criterios cubiertos:** D6 (copiar correo).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] El enlace de correo apunta a `mailto:{correo}` con la dirección de `perfil.json`.
+- [ ] Pulsar "Copiar" copia la dirección al portapapeles.
+- [ ] Aparece "Copiado ✓" en `#copiado` con `aria-live="polite"`.
+- [ ] Los enlaces secundarios (GitHub, LinkedIn) se renderizan correctamente.
+
+---
+
+### H10 — Pie con actualización y enlace a spec
+**Qué:** Renderizar enlace a `spec.md` del repo (`perfil.specUrl` o ruta relativa) y texto "Actualizado en <mes año>" a partir de `perfil.actualizado` (formato `AAAA-MM`).
+
+**Criterios cubiertos:** D8 (pie actualizado).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] El enlace "spec.md" apunta a la URL correcta del repo.
+- [ ] El texto muestra "Actualizado en <mes> <año>" parseado desde `AAAA-MM`.
+
+---
+
+### H11 — Meta tags OG y favicon
+**Qué:** Asegurar que `index.html` tiene `title`, `meta description`, `og:title`, `og:description`, `og:image` (puntando a `og.png`), `twitter:card`, y favicon SVG inline. El JS actualiza `title` y metadatos OG al cargar con datos de `perfil.json` (para scrapers que ejecuten JS, aunque los estáticos ya cubren el caso base).
+
+**Criterios cubiertos:** D5 (OG completo).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] `og.png` existe en la raíz y responde 200.
+- [ ] Facebook Debugger o similar muestra título, descripción e imagen correctos.
+- [ ] Favicon visible en la pestaña del navegador.
+
+---
+
+### H12 — GitHub Pages despliegue automático
+**Qué:** Configurar el repo para servir desde `main` en la subruta `/portfolio-prueba/`. Asegurar rutas relativas en todos los recursos. Verificar que un push se refleja en la URL pública.
+
+**Criterios cubiertos:** CA16 (despliegue automático).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] La URL pública de GitHub Pages carga sin 404.
 - [ ] Los JSON se cargan correctamente desde la subruta.
-- [ ] Las im\u00e1genes se cargan correctamente desde la subruta.
-- [ ] Un push a `main` se refleja en la URL p\u00fablica sin pasos manuales.
-- [ ] No hay errores 404 en consola para recursos est\u00e1ticos.
-
-### T10 \u2014 Verificaci\u00f3n de criterios de aceptaci\u00f3n
-**Qu\u00e9:** Revisar uno a uno los 18 CA en la URL p\u00fablica. Documentar evidencia. Cualquier fallo \u2192 tarea de correcci\u00f3n.
-**Dependencias:** T7, T8, T9.
-**Definici\u00f3n de hecho:**
-- [ ] Checklist de los 18 CA completado con evidencia documentada.
-- [ ] Todos los CA que requieren edici\u00f3n de JSON se prueban editando, push y recarga.
-- [ ] Cualquier fallo se documenta con pasos de reproducci\u00f3n y se crea tarea de correcci\u00f3n.
-- [ ] Informe final de verificaci\u00f3n entregado.
+- [ ] Las imágenes se cargan correctamente desde la subruta.
+- [ ] Un push a `main` se refleja en la URL pública sin pasos manuales.
 
 ---
 
-## Dependencias entre tareas
+### H13 — Robustez, errores y motion
+**Qué:** Manejar errores de carga de JSON sin romper la página. Asegurar `prefers-reduced-motion: reduce` desactiva todas las animaciones. Con motion permitido, solo las tres animaciones del sistema de diseño (entrada hero, hover capturas, fundido filtro). Asegurar que `acento` fuera de la lista o ausente usa el valor por defecto (`violeta`).
+
+**Criterios cubiertos:** CA17-18 (sin errores en consola, error JSON), D3 (reduced motion), D4 (acento por defecto).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] No hay errores en la consola al cargar ni al filtrar.
+- [ ] Si `proyectos.json` no carga o está mal formado: "No se han podido cargar los proyectos"; resto funciona.
+- [ ] Con `prefers-reduced-motion: reduce` activado en el sistema operativo, no hay transiciones ni animaciones visibles.
+- [ ] Con motion permitido, solo se ven: entrada del hero (fadeUp escalonado), hover de capturas (scale 1.02), fundido del filtro.
+- [ ] Con `acento: "turquesa"` (fuera de lista) o ausente, el acento es `violeta`.
+
+---
+
+### H14 — PageSpeed Insights
+**Qué:** Verificar que la URL pública obtiene ≥95 en Rendimiento, Accesibilidad, Buenas prácticas y SEO en PageSpeed Insights modo móvil.
+
+**Criterios cubiertos:** D7 (PageSpeed).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] PageSpeed Insights (móvil) muestra ≥95 en las cuatro categorías.
+- [ ] Captura de pantalla del informe como evidencia.
+
+---
+
+## Historias de usuario [Actividad]
+
+### H15 — Rejilla de calor de contribuciones GitHub
+**Qué:** Leer el usuario de GitHub desde `perfil.github`. Llamar a `https://github-contributions-api.jogruber.de/v4/{usuario}?y=last`. Filtrar los últimos 91 días en el cliente. Renderizar rejilla: 13 columnas (semanas) × 7 filas (días, lunes a domingo). Cada celda codifica 5 niveles de intensidad por luminosidad. Leyenda visible: "Menos → Más". Resumen textual: "N contribuciones en los últimos 3 meses" con `aria-live="polite"`. Cada celda tiene `aria-label` con fecha y número.
+
+**Criterios cubiertos:** CA25-28 (actividad: usuario, rejilla, accesibilidad, resumen).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] El usuario se lee de `perfil.json`; no está hardcodeado en HTML ni JS.
+- [ ] La rejilla tiene 13 columnas (semanas) y 7 filas (lunes a domingo).
+- [ ] La última columna es la semana en curso; días futuros se ven vacíos (transparente con borde dashed).
+- [ ] Cada celda tiene `aria-label` con fecha y número de contribuciones.
+- [ ] Leyenda visible con 5 niveles de intensidad.
+- [ ] Resumen textual visible con total de contribuciones y `aria-live="polite"`.
+- [ ] Los colores de intensidad respetan el sistema de diseño (escala de grises monocroma).
+
+---
+
+### H16 — Estados vacíos y responsive de actividad
+**Qué:** Manejar casos donde no hay usuario de GitHub, no hay contribuciones, o la API no responde. Mostrar estado vacío con mensaje descriptivo. Asegurar que a 360 px la rejilla entera se ve sin scroll horizontal.
+
+**Criterios cubiertos:** CA29-30 (estados vacíos y responsive actividad).
+
+**Definición de hecho (verificable en URL pública):**
+- [ ] Si `perfil.github` es null o ausente: sección muestra mensaje de estado vacío; resto del portfolio no se afecta.
+- [ ] Si la API no responde o devuelve error: sección muestra mensaje de estado vacío; resto funciona.
+- [ ] Si el usuario existe pero no tiene contribuciones en los últimos 91 días: rejilla visible con todas las celdas vacías y resumen "0 contribuciones".
+- [ ] A 360 px de ancho, la rejilla completa se ve sin scroll horizontal (scroll interno si es necesario, pero no overflow-x en la página).
+
+---
+
+## Dependencias entre historias
 
 ```
-T1 (Setup)
-  \u251c\u2500\u2500 T2 (HTML) \u2500\u2500 T3 (CSS) \u2500\u2500 T7 (A11y)
-  \u251c\u2500\u2500 T4 (Perfil) \u2500\u2500 T7 (A11y)
-  \u2514\u2500\u2500 T5 (Proyectos) \u2500\u2500 T6 (Filtro) \u2500\u2500 T7 (A11y)
-                              \u2514\u2500\u2500 T8 (Errores)
+H1 (HTML estructura)
+  ├── H2 (Perfil) ──┬── H7 (Sobre mí)
+  │                 ├── H9 (Contacto)
+  │                 ├── H10 (Pie)
+  │                 └── H11 (OG)
+  ├── H3 (Proyectos) ── H4 (Filtro)
+  ├── H8 (Certificaciones)
+  ├── H15 (Actividad) ── H16 (Estados actividad)
+  └── H5 (Responsive) ── H6 (A11y)
 
-T9 (Deploy) puede empezar tras T1, pero necesita T7+T8+T10 para "Done".
-T10 (Verificaci\u00f3n) necesita T7, T8, T9.
+H12 (Deploy) puede empezar tras H1.
+H13 (Robustez) necesita H2, H3, H4, H8, H15.
+H14 (PageSpeed) necesita todo lo demás hecho.
 ```
 
 ---
 
-## Notas de ejecuci\u00f3n
+## Notas de ejecución
 
-- Las decisiones de dise\u00f1o en la cabecera de este documento est\u00e1n **aprobadas por Alex**. No se modifican sin su expl\u00edcita aprobaci\u00f3n.
-- Cada tarea se mueve a `In Progress` cuando se empieza y a `Review` cuando el dev cree que est\u00e1 hecha. Alex (o el PM) la mueve a `Done` tras validar los criterios de hecho.
-- Las pruebas de CA que requieren editar JSON deben hacerse en `main`, push, y verificar en la URL p\u00fablica. No en local.
+- Las decisiones de diseño en la sección "Decisiones técnicas · diseño v3" están aprobadas por Alex. No se modifican sin su explícita aprobación.
+- Cada historia se mueve a `In Progress` cuando se empieza y a `Review` cuando el dev cree que está hecha. Alex (o el PM) la mueve a `Done` tras validar los criterios de hecho en la **URL pública**.
+- Las pruebas que requieren editar JSON (CA1, CA9, H13-acento) deben hacerse en `main`, push, y verificar en la URL pública. No en local.
+- Las imágenes (`img/`) y `og.png` las sube Alex por otra vía; no se generan ni se referencian de otra forma.

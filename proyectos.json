@@ -2,51 +2,85 @@
   {
     "id": "gestor-tareas",
     "nombre": "Gestor de tareas Android",
-    "descripcion": "App nativa para organizar tareas por proyecto, con recordatorios y almacenamiento local.",
+    "destacado": true,
+    "resumen": "App Android para organizar entregas por proyecto, con recordatorios y modo sin conexión.",
+    "descripcion": "En clase cada uno apuntaba las entregas donde podía y se perdían fechas. App Android con proyectos, recordatorios y trabajo sin conexión; **la usan 12 compañeros de clase desde marzo**.",
     "tecnologias": ["Kotlin", "Android", "SQLite"],
     "url": null,
     "repo": "https://github.com/alex-ejemplo/gestor-tareas",
     "fecha": "2026-05",
-    "imagen": "images/gestor-tareas.svg"
-  },
-  {
-    "id": "api-reservas",
-    "nombre": "API de reservas",
-    "descripcion": "API REST para reservar pistas deportivas, con autenticación y documentación OpenAPI.",
-    "tecnologias": ["Java", "Spring Boot", "MySQL"],
-    "url": null,
-    "repo": "https://github.com/alex-ejemplo/api-reservas",
-    "fecha": "2026-03",
-    "imagen": null
+    "imagen": "img/gestor-tareas.png",
+    "snippet": null
   },
   {
     "id": "tienda-discos",
     "nombre": "Tienda de discos",
-    "descripcion": "Catálogo web con carrito, filtros por género y persistencia en el navegador.",
+    "destacado": true,
+    "resumen": "Catálogo web con carrito y filtros por género, sin frameworks; 120 discos.",
+    "descripcion": "Catálogo para la tienda de discos de un amigo que vendía por Instagram. Web sin frameworks, con carrito, filtros por género y persistencia en el navegador; **120 discos catalogados y primer pedido a la semana de publicarla**.",
     "tecnologias": ["HTML", "CSS", "JavaScript"],
     "url": "https://alex-ejemplo.github.io/tienda-discos/",
     "repo": "https://github.com/alex-ejemplo/tienda-discos",
     "fecha": "2026-01",
-    "imagen": "images/tienda-discos.svg"
+    "imagen": "img/tienda-discos.png",
+    "snippet": null
+  },
+  {
+    "id": "api-reservas",
+    "nombre": "API de reservas",
+    "destacado": false,
+    "resumen": "API REST para reservar pistas deportivas, con autenticación JWT y documentación OpenAPI.",
+    "descripcion": "API REST para reservar pistas deportivas, con autenticación JWT, documentación OpenAPI y **tests de integración en el 90 % de los endpoints**.",
+    "tecnologias": ["Java", "Spring Boot", "MySQL"],
+    "url": null,
+    "repo": "https://github.com/alex-ejemplo/api-reservas",
+    "fecha": "2026-03",
+    "imagen": null,
+    "snippet": {
+      "lang": "bash",
+      "code": "$ curl -X POST https://api-reservas.alex.dev/v1/reservas \\\n    -H \"Authorization: Bearer eyJhbGci…\" \\\n    -d '{\"pista\": 3, \"fecha\": \"2026-03-14\", \"hora\": \"18:00\"}'\n\nHTTP/1.1 201 Created\n{\"id\": \"rsv_8f21\", \"estado\": \"confirmada\", \"precio\": 12.0}"
+    }
   },
   {
     "id": "bot-discord",
     "nombre": "Bot de Discord para el instituto",
-    "descripcion": "Bot que publica el horario, avisa de exámenes y responde a comandos del grupo de clase.",
+    "destacado": false,
+    "resumen": "Bot que publica el horario, avisa de exámenes y responde a comandos del grupo de clase.",
+    "descripcion": "El grupo de clase perdía los avisos de exámenes en el chat. Bot en Python que publica el horario y responde a comandos; **lo usan 40 alumnos cada semana**.",
     "tecnologias": ["Python", "Discord API"],
     "url": null,
     "repo": "https://github.com/alex-ejemplo/bot-discord",
     "fecha": "2025-11",
-    "imagen": null
+    "imagen": null,
+    "snippet": {
+      "lang": "text",
+      "code": "$ !examen\n📅 Próximo examen: Acceso a Datos · jueves 9:00\n$ !horario viernes\n08:00 PMDM · 10:00 PSP · 12:00 SGE\n$ !aviso \"Entrega TFG\" 30/05\n✅ Aviso creado. Os lo recordaré el 28/05."
+    }
   },
   {
     "id": "recetas",
     "nombre": "App de recetas multiplataforma",
-    "descripcion": "Recetario con lista de la compra compartida, sincronizado en la nube.",
+    "destacado": false,
+    "resumen": "Recetario con lista de la compra compartida y sincronización en la nube.",
+    "descripcion": "Recetario con lista de la compra compartida, sincronizado en la nube; **la misma base de código en Android, iOS y web**.",
     "tecnologias": ["Flutter", "Dart", "Firebase"],
     "url": null,
     "repo": "https://github.com/alex-ejemplo/recetas",
     "fecha": "2025-06",
-    "imagen": "images/recetas.svg"
+    "imagen": "img/recetas.png",
+    "snippet": null
+  },
+  {
+    "id": "backup-aula",
+    "nombre": "Copias de seguridad del aula",
+    "destacado": false,
+    "resumen": "Script que copia cada noche los proyectos del aula a un disco externo y avisa por correo si algo falla.",
+    "descripcion": "Script que copia cada noche los proyectos del aula a un disco externo y avisa por correo si algo falla; **un año sin perder un proyecto**.",
+    "tecnologias": ["Python", "Bash"],
+    "url": null,
+    "repo": "https://github.com/alex-ejemplo/backup-aula",
+    "fecha": "2025-03",
+    "imagen": null,
+    "snippet": null
   }
 ]
