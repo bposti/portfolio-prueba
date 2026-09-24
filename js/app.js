@@ -19,7 +19,6 @@
     perfil = defaults;
   }
 
-  // Header
   document.getElementById('nombre').textContent = perfil.nombre || defaults.nombre;
   document.getElementById('titular').textContent = perfil.titular || defaults.titular;
 
@@ -32,10 +31,8 @@
   const co = document.getElementById('correo');
   co.href = perfil.correo ? 'mailto:' + perfil.correo : defaults.correo;
 
-  // Sobre mí
   document.getElementById('sobre-mi-texto').textContent = perfil.sobreMi || defaults.sobreMi;
 
-  // Footer
   const fGh = document.getElementById('footer-github');
   fGh.href = perfil.github ? 'https://github.com/' + perfil.github : '#';
 
@@ -46,7 +43,7 @@
   fCo.href = perfil.correo ? 'mailto:' + perfil.correo : defaults.correo;
 })();
 
-// T5 — Carga y renderizado de proyectos
+// T5 + T6 — Carga de proyectos, renderizado y filtros
 (async function initProyectos() {
   let proyectos = [];
   try {
@@ -60,7 +57,27 @@
     return;
   }
 
+  if (proyectos.length === 0) {
+    document.getElementById('sin-resultados').textContent = 'No hay proyectos todavía';
+    document.getElementById('sin-resultados').hidden = false;
+    return;
+  }
+
   const contenedor = document.getElementById('lista-proyectos');
+  const filtrosNav = document.getElementById('filtros');
+  const contador = document.getElementById('contador');
+  const sinResultados = document.getElementById('sin-resultados');
+
+  // Extraer tecnologías únicas y ordenar alfabéticamente
+  const tecnologiasSet = new Set();
+  proyectos.forEach(p => {
+    if (Array.isArray(p.tecnologias)) {
+      p.tecnologias.forEach(t => tecnologiasSet.add(t));
+    }
+  });
+  const tecnologias = ['Todas', ...Array.from(tecnologiasSet).sort()];
+
+  let filtroActivo = 'Todas';
 
   function renderTarjeta(p) {
     const article = document.createElement('article');
@@ -112,11 +129,48 @@
     return article;
   }
 
-  proyectos.forEach(p => {
-    contenedor.appendChild(renderTarjeta(p));
+  function renderProyectos(filtro) {
+    contenedor.innerHTML = '';
+    const filtrados = filtro === 'Todas'
+      ? proyectos
+      : proyectos.filter(p => Array.isArray(p.tecnologias) && p.tecnologias.includes(filtro));
+
+    filtrados.forEach(p => contenedor.appendChild(renderTarjeta(p)));
+
+    contador.textContent = filtrados.length + ' proyecto' + (filtrados.length !== 1 ? 's' : '');
+    sinResultados.hidden = filtrados.length > 0;
+  }
+
+  function crearBotonFiltro(tec) {
+    const btn = document.createElement('button');
+    btn.className = 'filtro';
+    btn.textContent = tec;
+    btn.setAttribute('aria-pressed', tec === filtroActivo ? 'true' : 'false');
+    btn.type = 'button';
+
+    btn.addEventListener('click', () => {
+      if (filtroActivo === tec) return;
+      filtroActivo = tec;
+      // Actualizar aria-pressed en todos los botones
+      filtrosNav.querySelectorAll('.filtro').forEach(b => {
+        b.setAttribute('aria-pressed', b.textContent === filtroActivo ? 'true' : 'false');
+      });
+      renderProyectos(filtroActivo);
+    });
+
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+
+    return btn;
+  }
+
+  tecnologias.forEach(tec => {
+    filtrosNav.appendChild(crearBotonFiltro(tec));
   });
 
-  // Guardar para filtros (T6)
-  window.__proyectos = proyectos;
-  window.__renderTarjeta = renderTarjeta;
+  renderProyectos('Todas');
 })();
