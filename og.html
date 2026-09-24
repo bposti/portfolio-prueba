@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>og.png · plantilla 1200×630</title>
+  <!-- Plantilla de la imagen de compartir. Ábrela en Chrome, pon el viewport a 1200×630 (DevTools → modo dispositivo)
+       y guarda la captura como og.png en la raíz del repo. Cambia nombre, titular, claim y estado a mano. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#0A0A0A;--ink-2:#404040;--muted:#595959;--surface:#F5F5F5;--accent:#6D28D9;--accent-soft:#EDE9FE}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#fff}
+    .og{width:1200px;height:630px;padding:72px 80px;display:flex;flex-direction:column;justify-content:space-between;font-family:"Geist",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);position:relative;overflow:hidden}
+    .og::after{content:"";position:absolute;right:-120px;top:-120px;width:520px;height:520px;border-radius:50%;background:var(--accent-soft);z-index:0}
+    .og>*{position:relative;z-index:1}
+    .top{display:flex;align-items:center;gap:20px}
+    .foto{width:88px;height:88px;border-radius:50%;object-fit:cover;background:var(--surface)}
+    .nombre{font-size:30px;font-weight:600;letter-spacing:-.02em}
+    .titular{font-size:20px;color:var(--muted);margin-top:4px}
+    .claim{font-size:60px;font-weight:600;letter-spacing:-.03em;line-height:1.05;max-width:940px;text-wrap:balance}
+    .pill{display:inline-flex;align-items:center;gap:12px;height:44px;padding:0 18px 0 14px;border-radius:999px;background:var(--surface);font:500 18px/1 "Geist Mono",ui-monospace,Menlo,monospace}
+    .pill i{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+  </style>
+</head>
+<body>
+  <div class="og">
+    <div class="top">
+      <img class="foto" src="img/foto.jpg" alt="">
+      <div><div class="nombre">Alex</div><div class="titular">Desarrollador multiplataforma en formación · 2.º de DAM</div></div>
+    </div>
+    <div class="claim">Construyo apps Android y APIs que la gente usa de verdad. Busco prácticas para 2027.</div>
+    <div><span class="pill"><i></i>Disponible para prácticas · marzo 2027</span></div>
+  </div>
+</body>
+</html>
